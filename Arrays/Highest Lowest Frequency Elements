@@ -1,0 +1,37 @@
+import java.util.*;
+
+public class Solution {
+    public static int[] getFrequencies(int []v) {
+        int n = v.length;
+        HashMap<Integer, Integer> map = new HashMap<>();
+        for(int i = 0; i < n; i++) {
+            map.put(v[i], map.getOrDefault(v[i], 0) + 1);
+        }
+        int lowestFreq = n;
+        int highestFreq = 0;
+        int lowestElement = n;
+        int highestElement = 0;
+        for(Map.Entry<Integer, Integer> entry : map.entrySet()) {
+            int freq = entry.getValue();
+            int element = entry.getKey();
+            if(freq > highestFreq) {
+                highestFreq = freq;
+                highestElement = element;
+            }
+            if(freq == highestFreq) {
+                highestElement = Math.min(highestElement, element);
+            }
+            if(freq < lowestFreq) {
+                lowestFreq = freq;
+                lowestElement = element;
+            }
+            if(lowestFreq == freq) {
+                lowestElement = Math.min(lowestElement, element);
+            }
+        }
+        int ans[] = new int[2];
+        ans[0] = highestElement;
+        ans[1] = lowestElement;
+        return ans;
+    }
+}
