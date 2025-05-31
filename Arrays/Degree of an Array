@@ -1,0 +1,33 @@
+class Solution {
+    public int findShortestSubArray(int[] nums) {
+        Map<Integer, Integer> count = new HashMap<>();      
+        Map<Integer, Integer> firstIndex = new HashMap<>();
+        Map<Integer, Integer> lastIndex = new HashMap<>();
+      
+        int degree = 0;
+        for (int i = 0; i < nums.length; ++i) {
+            int number = nums[i];
+            count.put(number, count.getOrDefault(number, 0) + 1);
+            degree = Math.max(degree, count.get(number));
+          
+            if (!firstIndex.containsKey(number)) {
+
+                firstIndex.put(number, i);
+            }
+          
+            lastIndex.put(number, i);
+        }
+      
+        int shortestSubarrayLength = Integer.MAX_VALUE;
+      
+        for (int number : nums) {
+            if (count.get(number) == degree) { 
+                int tempLength = lastIndex.get(number) - firstIndex.get(number) +1; 
+                if (shortestSubarrayLength > tempLength) {
+                    shortestSubarrayLength = tempLength;
+                }
+            }
+        }
+        return shortestSubarrayLength;
+    }
+}
