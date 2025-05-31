@@ -1,0 +1,39 @@
+class Solution {
+    void rearrange(ArrayList<Integer> arr) {
+        int n = arr.size();
+        ArrayList<Integer> pos = new ArrayList<>();
+        ArrayList<Integer> neg = new ArrayList<>();
+        ArrayList<Integer> result = new ArrayList<>();
+
+        // Separate positive and negative numbers
+        for (int num : arr) {
+            if (num >= 0) {
+                pos.add(num);
+            } else {
+                neg.add(num);
+            }
+        }
+
+        int i = 0, j = 0;
+
+        // Alternate elements from pos and neg
+        while (i < pos.size() && j < neg.size()) {
+            result.add(pos.get(i++));
+            result.add(neg.get(j++));
+        }
+
+        // Add remaining elements
+        while (i < pos.size()) {
+            result.add(pos.get(i++));
+        }
+
+        while (j < neg.size()) {
+            result.add(neg.get(j++));
+        }
+
+        // Copy result back to original array
+        for (int k = 0; k < n; k++) {
+            arr.set(k, result.get(k));
+        }
+    }
+}
