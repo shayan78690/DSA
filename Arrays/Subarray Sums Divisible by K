@@ -1,0 +1,25 @@
+public class Solution {
+    public int subarraysDivByK(int[] nums, int k) {
+        Map<Integer, Integer> modMap = new HashMap<>();
+        // modMap.put(0, 1); // Important: subarray starting from index 0
+
+        int count = 0;
+        int prefixSum = 0;
+
+        for (int num : nums) {
+            prefixSum += num;
+            if(prefixSum % k == 0) {
+                count++;
+            }
+            int mod = (prefixSum % k + k) % k; // Normalize to handle negative numbers
+
+            if (modMap.containsKey(mod)) {
+                count += modMap.get(mod);
+            }
+
+            modMap.put(mod, modMap.getOrDefault(mod, 0) + 1);
+        }
+
+        return count;
+    }
+}
