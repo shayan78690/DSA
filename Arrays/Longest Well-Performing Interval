@@ -1,0 +1,31 @@
+class Solution {
+    public int longestWPI(int[] hours) {
+        int n = hours.length;
+        Map<Integer, Integer> map = new HashMap<>();
+        int score = 0;
+        int maxLen = 0;
+
+        for (int i = 0; i < n; i++) {
+            // Increase score for tiring day, decrease for non-tiring
+            if (hours[i] > 8) score += 1;
+            else score -= 1;
+
+            if (score > 0) {
+                // From start to i, it's well-performing
+                maxLen = i + 1;
+            } else {
+                // If score-1 occurred before, this interval is well-performing
+                if (map.containsKey(score - 1)) {
+                    maxLen = Math.max(maxLen, i - map.get(score - 1));
+                }
+            }
+
+            // Store first occurrence of each score
+            if (!map.containsKey(score)) {
+                map.put(score, i);
+            }
+        }
+
+        return maxLen;
+    }
+}
