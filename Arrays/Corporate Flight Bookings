@@ -1,0 +1,48 @@
+class Solution {
+
+    /*
+    Instead of updating all flights in the range, we only update the boundaries: Add seats at the start index
+    Subtract seats at end + 1 index
+    Then later, we run a prefix sum to convert these boundary changes into actual values for each flight.
+    */
+    public int[] corpFlightBookings(int[][] bookings, int n) {
+        int prefix[] = new int[n];
+        Arrays.fill(prefix, 0);
+        for (int booking[] : bookings) {
+            int first = booking[0] - 1;
+            int last = booking[1] - 1;
+            int val = booking[2];
+            prefix[first] += val;
+            if (last+1 < n) {
+                prefix[last + 1] -= val;
+            }
+        }
+        for (int i = 1; i < n; i++) {
+            prefix[i] = prefix[i] + prefix[i - 1];
+        }
+        return prefix;
+    }
+}
+
+
+
+
+
+
+
+
+class Solution {
+    public int[] corpFlightBookings(int[][] bookings, int n) {
+        int prefix[] = new int[n];
+        Arrays.fill(prefix, 0);
+        for(int i = 0; i < bookings.length; i++) {
+            int first = bookings[i][0];
+            int last = bookings[i][1];
+            int val = bookings[i][2];
+            for(int j = first; j <= last; j++) {
+                prefix[j-1] += val;
+            }
+        }
+        return prefix;
+    }
+}
