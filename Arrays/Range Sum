@@ -1,0 +1,33 @@
+public class Solution {
+
+    public static int[] rangeSum(int[] arr, int[][] queries) {
+        int n = arr.length;		
+        int[] ans = new int[queries.length];
+        int[] prefix = new int[n];
+
+        // Build prefix sum array (0-based for internal use)
+        prefix[0] = arr[0];
+        for (int i = 1; i < n; i++) {
+            prefix[i] = arr[i] + prefix[i - 1];
+        }
+
+        // Process each query (adjust 1-based indexing)
+        int i = 0;
+        for (int[] q : queries) {
+            int L = q[0]; // 1-based
+            int R = q[1]; // 1-based
+
+            // Convert to 0-based
+            int left = L - 1;
+            int right = R - 1;
+
+            if (left == 0) {
+                ans[i++] = prefix[right];
+            } else {
+                ans[i++] = prefix[right] - prefix[left - 1];
+            }
+        }
+
+        return ans;
+    }
+}
