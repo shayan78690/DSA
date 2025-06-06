@@ -1,0 +1,49 @@
+class Solution {
+    public int numOfSubarrays(int[] arr) {
+        int n = arr.length;
+        int odd = 0;
+        int even = 1;
+        int ans = 0;
+        int mod = 1000000007;
+        int prefixSum = 0;
+        for (int a : arr) {
+            prefixSum += a;
+            if (prefixSum % 2 == 0) {
+                ans = (ans + odd) % mod;
+                even++;
+            } else {
+                ans = (ans + even) % mod;
+                odd++;
+            }
+        }
+        return ans;
+    }
+}
+
+// Key Observation:
+// If:
+
+// prefixSum[j] is odd and prefixSum[i - 1] is even, then the subarray sum is odd
+
+// prefixSum[j] is even and prefixSum[i - 1] is odd, then the subarray sum is odd
+
+// So a subarray will have odd sum when the parity (even/odd) of the two prefix sums is different.
+
+// For each element in the array:
+// Add it to the prefixSum
+
+// Check if the prefixSum is even or odd
+
+// If even:
+
+// All previous odd prefixSums can pair with this to form subarrays with odd sum
+// ⟹ ans += odd_count
+
+// Add 1 to even_count
+
+// If odd:
+
+// All previous even prefixSums can pair with this to form subarrays with odd sum
+// ⟹ ans += even_count
+
+// Add 1 to odd_count
