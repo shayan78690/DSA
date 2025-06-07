@@ -1,4 +1,48 @@
 class Solution {
+    public int longestSubarray(int[] nums, int limit) {
+        int n = nums.length;
+        Deque<Integer> max = new LinkedList<>();
+        Deque<Integer> min = new LinkedList<>();
+        int left = 0;
+        int right = 0;
+        int maxLen = 1;
+        while (right < n) {
+            while (!max.isEmpty() && nums[right] > max.peekLast()) {
+                max.pollLast();
+            }
+            max.addLast(nums[right]);
+
+            while (!min.isEmpty() && nums[right] < min.peekLast()) {
+                min.pollLast();
+            }
+            min.addLast(nums[right]);
+
+            if (max.peekFirst() - min.peekFirst() > limit) {
+                if (nums[left] == max.peekFirst()) {
+                    max.pollFirst();
+                }
+                if (nums[left] == min.peekFirst()) {
+                    min.pollFirst();
+                }
+                left++;
+            }
+            maxLen = Math.max(maxLen, right - left + 1);
+            right++;
+        }
+        return maxLen;
+    }
+}
+
+
+
+
+
+
+
+
+
+
+class Solution {
         public int longestSubarray(int[] A, int limit) {
         Deque<Integer> maxd = new ArrayDeque<>();
         Deque<Integer> mind = new ArrayDeque<>();
