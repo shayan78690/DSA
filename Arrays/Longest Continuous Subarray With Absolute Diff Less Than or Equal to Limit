@@ -1,0 +1,45 @@
+class Solution {
+        public int longestSubarray(int[] A, int limit) {
+        Deque<Integer> maxd = new ArrayDeque<>();
+        Deque<Integer> mind = new ArrayDeque<>();
+        int i = 0, j;
+        for (j = 0; j < A.length; ++j) {
+            while (!maxd.isEmpty() && A[j] > maxd.peekLast()) maxd.pollLast();
+            while (!mind.isEmpty() && A[j] < mind.peekLast()) mind.pollLast();
+            maxd.add(A[j]);
+            mind.add(A[j]);
+            if (maxd.peek() - mind.peek() > limit) {
+                if (maxd.peek() == A[i]) maxd.poll();
+                if (mind.peek() == A[i]) mind.poll();
+                i++;
+            }
+        }
+        return j - i;
+    }
+}
+
+
+
+
+
+
+class Solution {
+    public int longestSubarray(int[] nums, int limit) {
+        int n = nums.length;
+        TreeMap<Integer, Integer> map = new TreeMap<>();
+        int left = 0;
+        int right = 0;
+        while(right < n) {
+            map.put(nums[right], map.getOrDefault(nums[right], 0) + 1);
+            if(map.lastEntry().getKey() - map.firstEntry().getKey() > limit) {
+                map.put(nums[left], map.get(nums[left]) - 1);
+                if(map.get(nums[left]) == 0) {
+                    map.remove(nums[left]);
+                }
+                left++;
+            }
+            right++;
+        }
+        return right-left;
+    }
+}
