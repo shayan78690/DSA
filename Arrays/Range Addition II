@@ -1,0 +1,57 @@
+class Solution {
+    public int maxCount(int m, int n, int[][] ops) {
+        int minRow = n;
+        int minCol = m;
+        for (int o[] : ops) {
+            minRow = Math.min(minRow, o[0]);
+            minCol = Math.min(minCol, o[1]);
+        }
+        return minRow * minCol;
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+class Solution {
+    public int maxCount(int n, int m, int[][] ops) {
+        int mat[][] = new int[n][m];
+        for (int row[] : mat) {
+            Arrays.fill(row, 0);
+        }
+        int maxElement = 0;
+        for (int o[] : ops) {
+            int row = o[0];
+            int col = o[1];
+            for (int i = 0; i < row; i++) {
+                for (int j = 0; j < col; j++) {
+                    mat[i][j] += 1;
+                    maxElement = Math.max(maxElement, mat[i][j]);
+                }
+            }
+        }
+        int count = 0;
+        for (int i = 0; i < mat.length; i++) {
+            for (int j = 0; j < mat.length; j++) {
+                if (mat[i][j] == maxElement)
+                    count++;
+            }
+        }
+        return count;
+    }
+}
