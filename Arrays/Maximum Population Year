@@ -1,5 +1,47 @@
 class Solution {
     public int maximumPopulation(int[][] logs) {
+        int prefix[] = new int[2051];
+        for (int log[] : logs) {
+            int birth = log[0];
+            int death = log[1];
+            prefix[birth] += 1;
+            prefix[death] -= 1;
+        }
+
+        int maxNum = prefix[1950];
+        int earliestYear = 1950;
+        for (int i = 1; i < prefix.length; i++) {
+            prefix[i] = prefix[i] + prefix[i - 1];
+
+            if (prefix[i] > maxNum) {
+                maxNum = prefix[i];
+                earliestYear = i;
+            }
+        }
+        return earliestYear;
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+class Solution {
+    public int maximumPopulation(int[][] logs) {
         int maxPopulation = 0;
         int earliestYear = 1950;
 
