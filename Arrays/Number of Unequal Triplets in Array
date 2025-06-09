@@ -1,0 +1,67 @@
+class Solution {
+    public int unequalTriplets(int[] nums) {
+        HashMap<Integer, Integer> map = new HashMap<>();
+        for (int num : nums) {
+            map.put(num, map.getOrDefault(num, 0) + 1);
+        }
+        int count = 0;
+        int left = 0;
+        int right = nums.length;
+        for (Map.Entry<Integer, Integer> key : map.entrySet()) {
+            int freq = key.getValue();
+            right -= freq;
+            count += left * right * freq;
+            left += freq;
+        }
+        return count;
+    }
+}
+
+/*
+Intuition
+Instead of checking every combination we can reduce the computation by taking the frequencies
+Approach
+Count occurrences of each number in nums.
+Iterate through nums while maintaining:
+left (count of elements before current).
+right (count of elements after current).
+For each number at index j, compute valid triplets using:
+left * freq[j] * right
+Update left and right .
+return count. */
+
+
+
+
+
+
+
+
+
+
+
+
+class Solution {
+    public int unequalTriplets(int[] nums) {
+        Map<Integer, Integer> freq = new HashMap<>();
+        for (int num : nums) {
+            freq.put(num, freq.getOrDefault(num, 0) + 1);
+        }
+
+
+        List<Integer> keys = new ArrayList<>(freq.keySet());
+        int count = 0;
+
+        for (int i = 0; i < keys.size(); i++) {
+            for (int j = i + 1; j < keys.size(); j++) {
+                for (int k = j + 1; k < keys.size(); k++) {
+                    int a = freq.get(keys.get(i));
+                    int b = freq.get(keys.get(j));
+                    int c = freq.get(keys.get(k));
+                    count += a * b * c;  // all combinations of their indices
+                }
+            }
+        }
+        return count;
+    }
+}
