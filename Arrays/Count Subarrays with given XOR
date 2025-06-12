@@ -1,0 +1,18 @@
+class Solution {
+    public long subarrayXor(int arr[], int k) {
+        long count = 0;
+        HashMap<Integer, Integer> map = new HashMap<>();
+        map.put(0, 1);
+        int XR = 0;
+        for(int i = 0; i < arr.length; i++) {
+            XR ^= arr[i];
+            int X = XR ^ k;
+            if(map.containsKey(X)) {
+                count += map.get(X);
+            }
+            
+            map.put(XR, map.getOrDefault(XR, 0) + 1);
+        }
+        return count;
+    }
+}
