@@ -1,0 +1,55 @@
+class Solution {
+    public List<List<String>> groupAnagrams(String[] strs) {
+        HashMap<String, List<String>> map = new HashMap<>();
+        for (String str : strs) {
+            int count[] = new int[26];
+            for (char ch : str.toCharArray()) {
+                count[ch - 'a']++;
+            }
+
+            String key = Arrays.toString(count);
+            if (!map.containsKey(key)) {
+                map.put(key, new ArrayList<>());
+            }
+            map.get(key).add(str);
+        }
+
+        List<List<String>> ans = new ArrayList<>();
+        for (Map.Entry<String, List<String>> entry : map.entrySet()) {
+            String key = entry.getKey();
+            List<String> temp = entry.getValue();
+            ans.add(temp);
+        }
+        return ans;
+    }
+}
+
+
+
+
+
+
+
+
+class Solution {
+    public List<List<String>> groupAnagrams(String[] strs) {
+        HashMap<String, List<String>> map = new HashMap<>();
+        for(String str : strs) {
+            char charArray[] = str.toCharArray();
+            Arrays.sort(charArray);
+            String sortedS = new String(charArray);
+            if(!map.containsKey(sortedS)) {
+                map.put(sortedS, new ArrayList<>());
+            }
+            map.get(sortedS).add(str);
+        }
+
+        List<List<String>> list = new ArrayList<>();
+        for(Map.Entry<String, List<String>> entry : map.entrySet()) {
+            String key = entry.getKey();
+            List<String> temp = entry.getValue();
+            list.add(temp);
+        }
+        return list;
+    }
+}
