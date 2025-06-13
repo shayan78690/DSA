@@ -1,0 +1,55 @@
+class Solution {
+    public List<Integer> countSmaller(int[] nums) {
+        int n = nums.length;
+        int result[] = new int[n];
+        int index[] = new int[n];
+        for(int i = 0; i < n; i++) {
+            index[i] = i;
+        }
+        mergeSort(0, n-1, nums, result, index);
+
+        List<Integer> ans = new ArrayList<>();
+        for(int num : result) {
+            ans.add(num);
+        }
+        return ans;
+    }
+
+    public void mergeSort(int low, int high, int nums[], int result[], int index[]) {
+        if(high <= low) return;
+        int mid = (low + high) / 2;
+        mergeSort(low, mid, nums, result, index);
+        mergeSort(mid+1, high, nums, result, index);
+        merge(low, mid, high, nums, result, index);
+    }
+
+    public void merge(int low, int mid, int high, int nums[], int result[], int index[]) {
+        int tempIdx[] = new int[high-low+1];
+        int i = low;
+        int j = mid+1;
+        int k = 0;
+        int count = 0;
+        while(i <= mid && j <= high) {
+            if(nums[index[i]] <= nums[index[j]]) {
+                result[index[i]] += count;
+                tempIdx[k++] = index[i++];
+            } else {
+                count++;
+                tempIdx[k++] = index[j++];
+            }
+        }
+
+        while(i <= mid) {
+            result[index[i]] += count;
+            tempIdx[k++] = index[i++];
+        }
+
+        while(j <= high) {
+            tempIdx[k++] = index[j++];
+        }
+
+        for(int m = 0; m < tempIdx.length; m++) {
+            index[low + m] = tempIdx[m];
+        }
+    }
+}
