@@ -1,0 +1,36 @@
+public class Solution {
+    public int[] maxset(int[] A) {
+        int n = A.length;
+        long sum = 0;
+        long maxSum = -1;
+        int start = 0;
+        int end = 0;
+        int maxStart = 0;
+        int maxEnd = -1;
+        for(int i = 0; i < n; i++) {
+            if(A[i] < 0) {
+                sum = 0;
+                start = i+1;
+            } else {
+                sum += A[i];
+                if(sum > maxSum) {
+                    maxSum = sum;
+                    maxStart = start;
+                    maxEnd = i;
+                } else if(sum == maxSum && i - start > maxEnd - maxStart) {
+                    maxSum = sum;
+                    maxStart = start;
+                    maxEnd = i;
+                } 
+            }
+        }
+        if(maxEnd < maxStart) {
+            return new int[0];
+        }
+        int result[] = new int[maxEnd-maxStart+1];
+        for(int i = maxStart; i <= maxEnd; i++) {
+            result[i-maxStart] = A[i];
+        } 
+        return result;
+    }
+}
