@@ -1,0 +1,73 @@
+
+
+
+
+
+
+
+
+
+class Solution {
+    public int singleNonDuplicate(int[] nums) {
+        int XOR = 0;
+        for(int num : nums) {
+            XOR ^= num;
+        }
+        return XOR;
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+public class Solution {
+    public int singleNonDuplicate(int[] nums) {
+        int n = nums.length;
+        HashMap<Integer, Integer> map = new HashMap<>();
+        for (int num : nums) {
+            map.put(num, map.getOrDefault(num, 0) + 1);
+        }
+        for (Map.Entry<Integer, Integer> entry : map.entrySet()) {
+            int key = entry.getKey();
+            int val = entry.getValue();
+            if (val == 1) {
+                return key;
+            }
+        }
+        return -1;
+    }
+}
+
+
+
+
+
+
+
+public class Solution {
+    public int singleNonDuplicate(int[] nums) {
+        int n = nums.length;
+
+        for (int i = 0; i < n; i++) {
+            int count = 0;
+            for (int j = 0; j < n; j++) {
+                if (nums[i] == nums[j]) {
+                    count++;
+                }
+            }
+            if (count == 1) {
+                return nums[i];
+            }
+        }
+
+        return -1;
+    }
+}
