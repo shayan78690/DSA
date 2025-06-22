@@ -1,0 +1,34 @@
+class Solution {
+    public int smallestDivisor(int[] nums, int threshold) {
+        int n = nums.length;
+        int maxi = Integer.MIN_VALUE;
+        for (int num : nums) {
+            maxi = Math.max(maxi, num);
+        }
+        if (threshold < n) {
+            return -1;
+        }
+        int ans = maxi;
+        int low = 1;
+        int high = maxi;
+        while (low <= high) {
+            int mid = (low + high) / 2;
+            int val = func(nums, mid);
+            if (val <= threshold) {
+                ans = mid;
+                high = mid - 1;
+            } else {
+                low = mid + 1;
+            }
+        }
+        return ans;
+    }
+
+    public int func(int nums[], int div) {
+        int total = 0;
+        for (int i = 0; i < nums.length; i++) {
+            total += Math.ceil((double) nums[i] / (double) div);
+        }
+        return total;
+    }
+}
