@@ -1,0 +1,35 @@
+class Solution {
+    public int maximumCandies(int[] candies, long k) {
+        int n = candies.length;
+        long ans = 0;
+        long maxi = Long.MIN_VALUE;
+
+        for (int i = 0; i < n; i++) {
+            maxi = Math.max(maxi, candies[i]);
+        }
+
+        long low = 1;
+        long high = maxi;
+
+        while (low <= high) {
+            long mid = (low + high) / 2;
+            if (func(candies, mid, k)) {
+                ans = mid;
+                low = mid + 1;
+            } else {
+                high = mid - 1;
+            }
+        }
+
+        return (int) ans;
+    }
+
+    public boolean func(int arr[], long c, long k) {
+        int n = arr.length;
+        long total = 0;
+        for (int i = 0; i < n; i++) {
+            total += (arr[i] / c);
+        }
+        return total >= k;
+    }
+}
