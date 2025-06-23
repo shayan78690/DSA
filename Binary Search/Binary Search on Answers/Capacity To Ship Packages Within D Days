@@ -1,0 +1,51 @@
+class Solution {
+    public int shipWithinDays(int[] weights, int days) {
+        int n = weights.length;
+        int maxi = findMax(weights);
+        int totalWeight = findTotal(weights);
+        int low = maxi;
+        int high = totalWeight;
+        int ans = maxi;
+        while (low <= high) {
+            int mid = (low + high) / 2;
+            int val = func(weights, days, mid);
+            if (val <= days) {
+                ans = mid;
+                high = mid - 1;
+            } else {
+                low = mid + 1;
+            }
+        }
+        return ans;
+    }
+
+    public int func(int arr[], int days, int mid) {
+        int totalDays = 1;
+        int capacity = 0;
+        for (int x : arr) {
+            if (capacity + x > mid) {
+                totalDays += 1;
+                capacity = x;
+            } else {
+                capacity += x;
+            }
+        }
+        return totalDays;
+    }
+
+    public int findMax(int arr[]) {
+        int maxi = Integer.MIN_VALUE;
+        for (int x : arr) {
+            maxi = Math.max(maxi, x);
+        }
+        return maxi;
+    }
+
+    public int findTotal(int arr[]) {
+        int sum = 0;
+        for (int x : arr) {
+            sum += x;
+        }
+        return sum;
+    }
+}
