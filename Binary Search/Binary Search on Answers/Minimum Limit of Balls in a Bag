@@ -1,0 +1,36 @@
+class Solution {
+    public int minimumSize(int[] nums, int maxOperations) {
+        int n = nums.length;
+        int maxi = findMax(nums);
+        int low = 1;
+        int high = maxi;
+        int ans = maxi;
+        while (low <= high) {
+            int mid = (low + high) / 2;
+            if (possible(nums, mid, maxOperations)) {
+                ans = mid;
+                high = mid - 1;
+            } else {
+                low = mid + 1;
+            }
+        }
+
+        return ans;
+    }
+
+    public boolean possible(int nums[], int penalty, int maxOperations) {
+        long total = 0;
+        for (int ball : nums) {
+            total += ((ball - 1) / penalty);
+        }
+        return total <= maxOperations;
+    }
+
+    public int findMax(int nums[]) {
+        int maxi = Integer.MIN_VALUE;
+        for (int num : nums) {
+            maxi = Math.max(maxi, num);
+        }
+        return maxi;
+    }
+}
