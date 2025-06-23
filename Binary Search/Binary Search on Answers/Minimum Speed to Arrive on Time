@@ -1,0 +1,41 @@
+class Solution {
+    public int minSpeedOnTime(int[] dist, double hour) {
+        int n = dist.length;
+
+        // If hour is less than number of rides - impossible
+        if (hour <= n - 1) return -1;
+
+        int low = 1;
+        int high = (int) 1e7; // Safe upper bound
+        int ans = -1;
+
+        while (low <= high) {
+            int mid = low + (high - low) / 2;
+
+            if (canReach(dist, hour, mid)) {
+                ans = mid;         // possible to reach, try smaller speed
+                high = mid - 1;
+            } else {
+                low = mid + 1;     // need more speed
+            }
+        }
+
+        return ans;
+    }
+
+    private boolean canReach(int[] dist, double hour, int speed) {
+        double time = 0.0;
+        int n = dist.length;
+
+        for (int i = 0; i < n; i++) {
+            double t = (double) dist[i] / speed;
+            if (i != n - 1) {
+                time += Math.ceil(t); // round up for first n-1 rides
+            } else {
+                time += t;            // exact for last ride
+            }
+        }
+
+        return time <= hour;
+    }
+}
