@@ -1,0 +1,33 @@
+class Solution {
+    public long minimumTime(int[] time, int totalTrips) {
+        int n = time.length;
+        long mini = (long)time[0];
+        long maxi = (long)time[0];
+        for(int i = 1; i < n; i++) {
+            mini = Math.min(mini, time[i]);
+            maxi = Math.max(maxi, time[i]);
+        }
+
+        long ans = maxi;
+        long low = mini;
+        long high = maxi * totalTrips;
+        while(low <= high) {
+            long mid = (low+high)/2;
+            long val = func(time, mid);
+            if(val >= totalTrips) {
+                ans = mid;
+                high = mid-1;
+            } else {
+                low = mid+1;
+            }
+        }
+        return ans;
+    }
+    public long func(int time[], long t) {
+        long total = 0;
+        for(int i = 0; i < time.length; i++) {
+            total += (t/time[i]);
+        }
+        return total;
+    }
+}
