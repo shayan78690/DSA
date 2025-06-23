@@ -1,0 +1,29 @@
+class Solution {
+    public int minimizedMaximum(int n, int[] quantities) {
+        int maxi = Integer.MIN_VALUE;
+        for (int q : quantities) {
+            maxi = Math.max(maxi, q);
+        }
+        int low = 1;
+        int high = maxi;
+        int ans = maxi;
+        while (low <= high) {
+            int mid = (low + high) / 2;
+            if (possible(n, quantities, mid)) {
+                ans = mid;
+                high = mid - 1;
+            } else {
+                low = mid + 1;
+            }
+        }
+        return ans;
+    }
+
+    public boolean possible(int n, int quantities[], int type) {
+        int ways = 0;
+        for (int q : quantities) {
+            ways += (int) Math.ceil((double) q / type);
+        }
+        return ways <= n;
+    }
+}
