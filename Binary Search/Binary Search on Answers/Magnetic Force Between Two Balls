@@ -1,0 +1,37 @@
+class Solution {
+    public int maxDistance(int[] position, int m) {
+        int n = position.length;
+        int maxi = Integer.MIN_VALUE;
+        int mini = Integer.MAX_VALUE;
+        for(int pos : position) {
+            maxi = Math.max(maxi, pos);
+            mini = Math.min(mini, pos);
+        }
+        Arrays.sort(position);
+        int low = 1;
+        int high = maxi-mini;
+        int ans = 1;
+        while(low <= high) {
+            int mid = (low+high)/2;
+            if(canWeDistribute(position, m, mid)) {
+                ans = mid;
+                low = mid+1;
+            } else {
+                high = mid-1;
+            }
+        }
+        return ans;
+    }
+
+    public boolean canWeDistribute(int arr[], int m, int force) {
+        int balls = 1;
+        int lastBall = arr[0];
+        for(int i = 1; i < arr.length; i++) {
+            if(Math.abs(lastBall-arr[i]) >= force) {
+                balls++;
+                lastBall = arr[i];
+            }
+        }
+        return balls >= m;
+    }
+}
