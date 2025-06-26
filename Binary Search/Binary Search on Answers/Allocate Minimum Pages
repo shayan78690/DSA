@@ -1,0 +1,39 @@
+class Solution {
+    public static int findPages(int[] arr, int k) {
+        int n = arr.length;
+        if(k > n) return -1;
+        int maxi = Integer.MIN_VALUE;
+        int sum = 0;
+        for(int a : arr) {
+            maxi = Math.max(maxi, a);
+            sum += a;
+        }
+        int low = maxi;
+        int high = sum;
+        int ans = -1;
+        while(low <= high) {
+            int mid = (low+high)/2;
+            if(possible(arr, k, mid)) {
+                ans = mid;
+                high = mid-1; 
+            } else {
+                low = mid+1;
+            }
+        }
+        return ans;
+    }
+    public static boolean possible(int arr[], int k, int mid) {
+        int n = arr.length;
+        int pagesStudent = 0;
+        int students = 1;
+        for(int i = 0; i < n; i++) {
+            if(arr[i] + pagesStudent <= mid) {
+                pagesStudent += arr[i];
+            } else {
+                students++;
+                pagesStudent = arr[i];
+            }
+        }
+        return students <= k;
+    }
+}
