@@ -1,0 +1,39 @@
+class Solution {
+    public int splitArray(int[] nums, int k) {
+        int n = nums.length;
+        int maxi = Integer.MIN_VALUE;
+        int sum = 0;
+        for (int num : nums) {
+            sum += num;
+            maxi = Math.max(maxi, num);
+        }
+        int low = maxi;
+        int high = sum;
+        int ans = sum;
+        while (low <= high) {
+            int mid = (low + high) / 2;
+            if (possible(nums, k, mid)) {
+                ans = mid;
+                high = mid - 1;
+            } else {
+                low = mid + 1;
+            }
+        }
+        return ans;
+    }
+
+    public boolean possible(int arr[], int k, int size) {
+        int n = arr.length;
+        int group = 1;
+        int sum = 0;
+        for (int i = 0; i < n; i++) {
+            if (sum + arr[i] <= size) {
+                sum += arr[i];
+            } else {
+                group++;
+                sum = arr[i];
+            }
+        }
+        return group <= k;
+    }
+}
