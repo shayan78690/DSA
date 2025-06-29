@@ -1,3 +1,42 @@
+class Solution {
+    public int rowWithMax1s(int arr[][]) {
+        int n = arr.length;
+        int m = arr[0].length;
+        int index = -1;
+        int max_count = 0;
+        for(int i = 0; i < n; i++) {
+            int count_ones = m - lowerBound(arr[i], m, 1);
+            if(count_ones > max_count) {
+                max_count = count_ones;
+                index = i;
+            }
+        }
+        return index;
+    }
+    
+    public int lowerBound(int arr[], int m, int x) {
+        int low = 0;
+        int high = m-1;
+        int ans = m;
+        while(low <= high) {
+            int mid = (low + high) / 2;
+            if(arr[mid] >= x) {
+                ans = mid;
+                high = mid-1;
+            } else {
+                low = mid+1;
+            }
+        }
+        return ans;
+    }
+}
+
+
+
+
+
+
+
 
 
 class Solution {
