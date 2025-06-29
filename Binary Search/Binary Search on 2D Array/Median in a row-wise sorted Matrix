@@ -1,18 +1,48 @@
+import java.util.*;
 
+public class Solution {
+    public static int findMedian(int[][] arr, int n, int m) {
+        int low = Integer.MAX_VALUE;
+        int high = Integer.MIN_VALUE;
 
-// User function Template for Java
+        // Find the minimum and maximum elements
+        for (int i = 0; i < n; i++) {
+            low = Math.min(low, arr[i][0]);       // Minimum of first column
+            high = Math.max(high, arr[i][m - 1]); // Maximum of last column
+        }
 
-class Solution {
-    int median(int mat[][]) {
-        ArrayList<Integer> list = new ArrayList<>();
-        int n = mat.length;
-        int m = mat[0].length;
-        for(int i = 0; i < n; i++) {
-            for(int j = 0; j < m; j++) {
-                list.add(mat[i][j]);
+        int desired = (n * m) / 2;
+
+        while (low <= high) {
+            int mid = (low + high) / 2;
+            int count = countSmallerOrEqual(arr, mid, n, m);
+
+            if (count <= desired) {
+                low = mid + 1;
+            } else {
+                high = mid - 1;
             }
         }
-        Collections.sort(list);
-        return list.get((n*m)/2);
+
+        return low;
+    }
+
+    public static int countSmallerOrEqual(int[][] arr, int x, int n, int m) {
+        int count = 0;
+
+        for (int i = 0; i < n; i++) {
+            int low = 0, high = m - 1;
+            while (low <= high) {
+                int mid = (low + high) / 2;
+                if (arr[i][mid] <= x) {
+                    low = mid + 1;
+                } else {
+                    high = mid - 1;
+                }
+            }
+            count += low; // 'low' is the number of elements ? x in this row
+        }
+
+        return count;
     }
 }
