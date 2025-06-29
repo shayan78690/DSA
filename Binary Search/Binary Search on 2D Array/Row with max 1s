@@ -1,0 +1,23 @@
+
+
+class Solution {
+    public int rowWithMax1s(int arr[][]) {
+        int n = arr.length;
+        int m = arr[0].length;
+        int index = -1;
+        int max_count = 0;
+        for(int i = 0; i  < n; i++) {
+            int count_ones = 0;
+            for(int j = 0; j < m; j++) {
+                if(arr[i][j] == 1) {
+                    count_ones++;
+                }
+            }
+            if(count_ones > max_count) {
+                max_count = count_ones;
+                index = i;
+            }
+        }
+        return index;
+    }
+}
